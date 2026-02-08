@@ -16,7 +16,7 @@ export default async function Home() {
   const categoryProducts: { [key: string]: products.Product[] } = {};
 
   try {
-    if (process.env.NEXT_PUBLIC_WIX_CLIENT_ID && process.env.NEXT_PUBLIC_WIX_CLIENT_ID !== "votre_client_id_ici") {
+    if (process.env.NEXT_PUBLIC_WIX_CLIENT_ID) {
       // Fetch all collections
       const collectionsRes = await wixClient.collections.queryCollections().find();
       allCollections = collectionsRes.items;

@@ -20,7 +20,7 @@ Avant de cliquer sur "Deploy", vous **devez** ajouter la variable suivante dans 
 
 | Clé | Valeur |
 | :--- | :--- |
-| `NEXT_PUBLIC_WIX_CLIENT_ID` | `bee4fb34-1913-464e-be7f-40329a27e3a1` |
+| `NEXT_PUBLIC_WIX_CLIENT_ID` | `5882e139-0a34-48e4-9ef6-f571f16379e6` |
 
 *Note : Sans cette variable, le site ne pourra pas récupérer vos produits Wix.*
 
