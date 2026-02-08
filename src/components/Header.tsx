@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, User, Heart, ShoppingCart, Menu, ChevronDown, X, ShoppingBag } from "lucide-react";
@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { wixClient } from "@/lib/wixClient";
 import { collections } from "@wix/stores";
 
-const Header = () => {
+const HeaderContent = () => {
   const { cart } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -304,6 +304,14 @@ const Header = () => {
         </div>
       )}
     </header>
+  );
+};
+
+const Header = () => {
+  return (
+    <Suspense fallback={<div className="h-20 bg-white" />}>
+      <HeaderContent />
+    </Suspense>
   );
 };
 

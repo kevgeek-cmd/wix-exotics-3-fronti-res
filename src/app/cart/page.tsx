@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { wixClient } from "@/lib/wixClient";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 export default function CartPage() {
   const { cart, removeItem, updateQuantity, isLoading } = useCart();
@@ -47,7 +47,9 @@ export default function CartPage() {
   if (!cart || cart.lineItems?.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Header />
+        <Suspense fallback={<div className="h-20 bg-white" />}>
+          <Header />
+        </Suspense>
         <main className="flex-grow container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Votre panier est vide</h1>
           <p className="text-gray-600 mb-8">Découvrez nos produits frais et ajoutez-les à votre panier.</p>
@@ -62,7 +64,9 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-white" />}>
+        <Header />
+      </Suspense>
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Votre Panier</h1>
         
