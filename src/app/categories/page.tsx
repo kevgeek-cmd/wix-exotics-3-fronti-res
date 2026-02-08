@@ -1,11 +1,12 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategoryList from "@/components/CategoryList";
+import siteConfig from "@/data/siteConfig.json";
 
 export default function CategoriesPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
+      <Header config={siteConfig} />
       <main className="flex-grow">
         <div className="bg-green-600 text-white py-12 mb-8">
           <div className="container mx-auto px-4 text-center">
@@ -17,7 +18,7 @@ export default function CategoriesPage() {
         {/* Render CategoryList without limit to show all */}
         <CategoryList />
       </main>
-      <Footer />
+      <Footer config={siteConfig} />
     </div>
   );
 }

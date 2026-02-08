@@ -1,9 +1,16 @@
 {
+  "topBanner": {
+    "text": "Bienvenue chez Exotics 3 Frontières - Livraison gratuite dès 30€ d'achat !",
+    "enabled": true,
+    "speed": 20
+  },
   "hero": {
     "title": "Le meilleur du bio chez vous",
     "subtitle": "Promo Spéciale",
     "buttonText": "Acheter Maintenant",
-    "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop"
+    "imageUrl": "/uploads/1770566817017-003f07_d9ac100bb74647f191c2f0165cba447e~mv2.avif",
+    "link": "/shop",
+    "imageFit": "contain"
   },
   "categories": {
     "limit": 6
@@ -13,6 +20,16 @@
     "phone": "+33 1 23 45 67 89",
     "address": "123 Rue de la Ferme, 75000 Paris, France",
     "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.29229261558231!3d48.85837360866201!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1647525301234!5m2!1sfr!2sfr"
+  },
+  "footer": {
+    "description": "Nous vous aidons à économiser sur vos courses ! Nous sommes une épicerie en ligne de premier plan proposant des produits exotiques et bio de qualité.",
+    "socials": {
+      "facebook": "#",
+      "twitter": "#",
+      "instagram": "#",
+      "youtube": "#"
+    },
+    "copyright": "© 2026 Exotics 3 Frontières. Tous droits réservés."
   },
   "promos": [
     {
@@ -35,21 +52,37 @@
       "id": "1",
       "title": "Découvrez notre ferme",
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "2",
-      "title": "Nos produits frais",
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "3",
-      "title": "Recettes saines",
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
   ],
   "blog": {
     "enabled": true,
-    "title": "Notre Blog",
-    "subtitle": "Conseils et astuces pour une vie plus saine"
+    "title": "Nos recettes",
+    "subtitle": "Conseils et astuces pour une vie plus saine",
+    "articles": [
+      {
+        "id": "1",
+        "title": "Pourquoi manger bio ?",
+        "excerpt": "Découvrez les bienfaits d'une alimentation saine pour votre corps et l'environnement.",
+        "content": "Le contenu complet de l'article ici...",
+        "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop",
+        "date": "2026-02-08"
+      },
+      {
+        "id": "2",
+        "title": "Les secrets des épices exotiques",
+        "excerpt": "Comment utiliser le curcuma, le gingembre et la cardamome pour sublimer vos plats.",
+        "content": "Découvrez l'origine et les vertus des épices...",
+        "imageUrl": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070&auto=format&fit=crop",
+        "date": "2026-02-09"
+      },
+      {
+        "id": "3",
+        "title": "Recette : Curry de légumes au coco",
+        "excerpt": "Une recette simple, saine et délicieuse pour toute la famille, prête en 20 minutes.",
+        "content": "Voici les ingrédients nécessaires pour ce curry...",
+        "imageUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070&auto=format&fit=crop",
+        "date": "2026-02-10"
+      }
+    ]
   }
 }

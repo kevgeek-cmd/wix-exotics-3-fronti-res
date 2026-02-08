@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { wixClient } from "@/lib/wixClient";
 import { useState, Suspense } from "react";
+import siteConfig from "@/data/siteConfig.json";
 
 export default function CartPage() {
   const { cart, removeItem, updateQuantity, isLoading } = useCart();
@@ -49,7 +50,7 @@ export default function CartPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <Suspense fallback={<div className="h-20 bg-white" />}>
-          <Header />
+          <Header config={siteConfig} />
         </Suspense>
         <main className="flex-grow container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Votre panier est vide</h1>
@@ -58,7 +59,7 @@ export default function CartPage() {
             Commencer vos achats
           </Link>
         </main>
-        <Footer />
+        <Footer config={siteConfig} />
       </div>
     );
   }
@@ -66,7 +67,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Suspense fallback={<div className="h-20 bg-white" />}>
-        <Header />
+        <Header config={siteConfig} />
       </Suspense>
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Votre Panier</h1>
@@ -101,7 +102,7 @@ export default function CartPage() {
                       >
                         <Minus className="w-4 h-4" />
                       </button>
-                      <span className="w-8 text-center font-bold">{item.quantity}</span>
+                      <span className="w-12 text-center font-bold">{item.quantity}</span>
                       <button 
                         onClick={() => updateQuantity(item._id!, (item.quantity || 1) + 1)}
                         disabled={isLoading}
@@ -110,11 +111,10 @@ export default function CartPage() {
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
-
                     <button 
                       onClick={() => removeItem(item._id!)}
                       disabled={isLoading}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors disabled:opacity-50"
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -124,33 +124,41 @@ export default function CartPage() {
             </ul>
           </div>
 
-          {/* Summary */}
-          <div className="lg:w-96 bg-white rounded-xl shadow-sm p-6 h-fit">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Résumé de la commande</h2>
-            
-            <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-gray-600">
-                <span>Sous-total</span>
-                <span>{formattedSubtotal}</span>
+          {/* Order Summary */}
+          <div className="lg:w-96">
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Récapitulatif</h2>
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between text-gray-600">
+                  <span>Sous-total</span>
+                  <span className="font-bold text-gray-900">{formattedSubtotal}</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
+                  <span>Livraison</span>
+                  <span className="text-green-600 font-bold">Gratuite</span>
+                </div>
+                <div className="border-t pt-4 flex justify-between">
+                  <span className="text-lg font-bold text-gray-900">Total</span>
+                  <span className="text-xl font-bold text-green-600">{formattedSubtotal}</span>
+                </div>
               </div>
-              <div className="flex justify-between text-xl font-bold text-gray-900 pt-4 border-t">
-                <span>Total</span>
-                <span>{formattedSubtotal}</span>
-              </div>
+              <button 
+                onClick={handleCheckout}
+                disabled={isRedirecting}
+                className="w-full bg-green-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-green-700 transition-colors disabled:opacity-50"
+              >
+                {isRedirecting ? "Redirection..." : (
+                  <>
+                    Passer à la caisse
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </button>
             </div>
-
-            <button 
-              onClick={handleCheckout}
-              disabled={isLoading || isRedirecting}
-              className="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isRedirecting ? "Redirection..." : "Commander"}
-              {!isRedirecting && <ArrowRight className="w-5 h-5" />}
-            </button>
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer config={siteConfig} />
     </div>
   );
 }

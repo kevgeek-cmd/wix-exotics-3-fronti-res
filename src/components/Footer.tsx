@@ -1,8 +1,27 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
-import siteConfig from "@/data/siteConfig.json";
 
-const Footer = () => {
+interface FooterProps {
+  config: {
+    footer: {
+      description: string;
+      socials: {
+        facebook: string;
+        twitter: string;
+        instagram: string;
+        youtube: string;
+      };
+      copyright: string;
+    };
+    contact: {
+      phone: string;
+      email: string;
+      address: string;
+    };
+  };
+}
+
+const Footer = ({ config }: FooterProps) => {
   return (
     <footer className="bg-slate-900 text-white pt-16 pb-8">
       <div className="container mx-auto px-4 md:px-8">
@@ -18,21 +37,29 @@ const Footer = () => {
               <span className="text-2xl font-bold uppercase tracking-wider">Wix Exotics</span>
             </div>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-              Nous vous aidons à économiser sur vos courses ! Nous sommes une épicerie en ligne de premier plan proposant des produits exotiques et bio de qualité.
+              {config.footer.description}
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
-                <Youtube className="w-5 h-5" />
-              </a>
+              {config.footer.socials.facebook && (
+                <a href={config.footer.socials.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                  <Facebook className="w-5 h-5" />
+                </a>
+              )}
+              {config.footer.socials.instagram && (
+                <a href={config.footer.socials.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {config.footer.socials.twitter && (
+                <a href={config.footer.socials.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                  <Twitter className="w-5 h-5" />
+                </a>
+              )}
+              {config.footer.socials.youtube && (
+                <a href={config.footer.socials.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                  <Youtube className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -77,19 +104,19 @@ const Footer = () => {
                 <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors">
                   <Phone className="w-4 h-4 text-white" />
                 </div>
-                <span>{siteConfig.contact.phone}</span>
+                <span>{config.contact.phone}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-gray-400 group">
                 <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors">
                   <Mail className="w-4 h-4 text-white" />
                 </div>
-                <span>{siteConfig.contact.email}</span>
+                <span>{config.contact.email}</span>
               </div>
               <div className="flex items-start gap-3 text-sm text-gray-400 group">
                 <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors mt-1">
                   <MapPin className="w-4 h-4 text-white" />
                 </div>
-                <span>{siteConfig.contact.address}</span>
+                <span>{config.contact.address}</span>
               </div>
             </div>
           </div>
@@ -98,7 +125,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            Copyright 2024 © Wix Exotics. Tous droits réservés.
+            {config.footer.copyright}
           </p>
           <div className="flex items-center gap-6">
             <Link href="/admin" className="text-gray-600 hover:text-green-500 text-xs transition-colors italic">

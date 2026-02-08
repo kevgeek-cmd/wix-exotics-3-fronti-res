@@ -14,10 +14,6 @@ export function getWixImageUrl(wixUri: string | null | undefined): string {
     const parts = wixUri.replace("wix:image://v1/", "").split("/");
     const imageId = parts[0];
     
-    // Some URIs have the filename after the imageId
-    // If not, we use the imageId as the filename (common in Wix)
-    const fileName = parts[1] ? parts[1].split("#")[0] : imageId;
-    
     return `https://static.wixstatic.com/media/${imageId}`;
   }
   

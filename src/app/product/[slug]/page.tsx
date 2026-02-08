@@ -3,6 +3,7 @@ import AddToCart from "@/components/AddToCart";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
+import siteConfig from "@/data/siteConfig.json";
 
 import ProductImage from "@/components/ProductImage";
 
@@ -23,7 +24,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
+      <Header config={siteConfig} />
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 p-8">
@@ -63,7 +64,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer config={siteConfig} />
     </div>
   );
 }

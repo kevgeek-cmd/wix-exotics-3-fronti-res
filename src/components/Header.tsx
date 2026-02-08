@@ -8,7 +8,17 @@ import { useCart } from "@/context/CartContext";
 import { wixClient } from "@/lib/wixClient";
 import { collections } from "@wix/stores";
 
-const HeaderContent = () => {
+interface HeaderProps {
+  config: {
+    topBanner: {
+      enabled: boolean;
+      text: string;
+      speed: number;
+    };
+  };
+}
+
+const HeaderContent = ({ config }: HeaderProps) => {
   const { cart } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -16,12 +26,12 @@ const HeaderContent = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState<collections.Collection[]>([]);
   const [mounted, setMounted] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-  }, []);
+    setSearchQuery(searchParams.get("q") || "");
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -54,26 +64,23 @@ const HeaderContent = () => {
   return (
     <header className="w-full relative z-50">
       {/* Top Bar with Scrolling Info */}
-      <div className="bg-green-600 text-white text-xs py-2 overflow-hidden border-b border-green-500/30">
-        <div className="whitespace-nowrap animate-marquee flex items-center gap-12">
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-            Livraison gratuite & -40% sur vos 3 prochaines commandes ! Commandez maintenant.
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-            Besoin d&apos;aide ? +1800 900 122 — Français — EUR
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-            Livraison gratuite & -40% sur vos 3 prochaines commandes ! Commandez maintenant.
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-            Besoin d&apos;aide ? +1800 900 122 — Français — EUR
-          </span>
+      {config.topBanner.enabled && (
+        <div className="bg-green-600 text-white text-xs py-2 overflow-hidden border-b border-green-500/30">
+          <div 
+            className="whitespace-nowrap flex items-center gap-12"
+            style={{
+              animation: `marquee ${config.topBanner.speed}s linear infinite`
+            }}
+          >
+            {[...Array(4)].map((_, i) => (
+              <span key={i} className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                {config.topBanner.text}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="bg-white py-4 px-4 md:px-8 flex items-center justify-between gap-4 border-b">
         {/* Mobile Menu Button */}
@@ -307,10 +314,10 @@ const HeaderContent = () => {
   );
 };
 
-const Header = () => {
+const Header = ({ config }: HeaderProps) => {
   return (
     <Suspense fallback={<div className="h-20 bg-white" />}>
-      <HeaderContent />
+      <HeaderContent config={config} />
     </Suspense>
   );
 };

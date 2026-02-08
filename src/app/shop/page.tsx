@@ -4,6 +4,7 @@ import ShopContent from "@/components/ShopContent";
 import { wixClient } from "@/lib/wixClient";
 import { products, collections } from "@wix/stores";
 import { Suspense } from "react";
+import siteConfig from "@/data/siteConfig.json";
 
 export default async function ShopPage({
   searchParams,
@@ -41,7 +42,7 @@ export default async function ShopPage({
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <Header />
+      <Header config={siteConfig} />
       <main className="flex-grow bg-gray-50/50">
         <Suspense fallback={<div className="container mx-auto py-12 px-4 text-center">Chargement de la boutique...</div>}>
           <ShopContent 
@@ -51,7 +52,7 @@ export default async function ShopPage({
           />
         </Suspense>
       </main>
-      <Footer />
+      <Footer config={siteConfig} />
     </div>
   );
 }
