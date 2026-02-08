@@ -1,13 +1,42 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import siteConfig from "@/data/siteConfig.json";
+import siteConfigData from "@/data/siteConfig.json";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowLeft, Clock, User, Share2 } from "lucide-react";
 import { notFound } from "next/navigation";
 
-export default function ArticlePage({ params }: { params: { id: string } }) {
-  const article = siteConfig.blog.articles.find(a => a.id === params.id);
+interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  imageUrl: string;
+  date: string;
+  link?: string;
+}
+
+interface SiteConfig {
+  topBanner: { text: string; enabled: boolean; speed: number };
+  blog: {
+    enabled: boolean;
+    title: string;
+    subtitle: string;
+    articles: Article[];
+  };
+  contact: { email: string; phone: string; address: string; mapUrl: string };
+  footer: {
+    description: string;
+    socials: { facebook: string; twitter: string; instagram: string; youtube: string };
+    copyright: string;
+  };
+}
+
+const siteConfig = siteConfigData as SiteConfig;
+
+export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const article = siteConfig.blog.articles.find(a => a.id === id);
 
   if (!article || !siteConfig.blog.enabled) {
     notFound();
