@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ShopContent from "@/components/ShopContent";
 import { wixClient } from "@/lib/wixClient";
+import { products, collections } from "@wix/stores";
 
 export default async function ShopPage({
   searchParams,
@@ -10,22 +11,27 @@ export default async function ShopPage({
 }) {
   const params = await searchParams;
   const selectedCat = params.cat as string | undefined;
+  const searchQuery = params.q as string | undefined;
 
-  let collections: any[] = [];
-  let initialProducts: any[] = [];
+  let allCollections: collections.Collection[] = [];
+  let initialProducts: products.Product[] = [];
 
   try {
     // Fetch collections
     const collectionsRes = await wixClient.collections.queryCollections().find();
-    collections = collectionsRes.items;
+    allCollections = collectionsRes.items;
 
-    // Fetch initial products (all or by selected cat)
-    const productsQuery = wixClient.products.queryProducts();
-    if (selectedCat) {
-      productsQuery.eq("collectionIds", selectedCat);
+    // Fetch initial products (search, category, or all)
+    let productsQuery = wixClient.products.queryProducts();
+    
+    if (searchQuery) {
+      productsQuery = productsQuery.startsWith("name", searchQuery);
+    } else if (selectedCat) {
+      productsQuery = productsQuery.eq("collectionIds", selectedCat);
     } else {
-      productsQuery.limit(20);
+      productsQuery = productsQuery.limit(20);
     }
+
     const productsRes = await productsQuery.find();
     initialProducts = productsRes.items;
   } catch (err) {
@@ -37,7 +43,7 @@ export default async function ShopPage({
       <Header />
       <main className="flex-grow bg-gray-50/50">
         <ShopContent 
-          initialCollections={collections} 
+          initialCollections={allCollections} 
           initialProducts={initialProducts}
           selectedCategoryId={selectedCat}
         />

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, User, Heart, ShoppingCart, Menu, ChevronDown, X } from "lucide-react";
+import { Search, User, Heart, ShoppingCart, Menu, ChevronDown, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { wixClient } from "@/lib/wixClient";
 import { collections } from "@wix/stores";
@@ -19,7 +19,11 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
     const fetchCollections = async () => {
       try {
         const response = await wixClient.collections.queryCollections().find();
@@ -83,7 +87,7 @@ const Header = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="bg-green-600 rounded-full p-2">
-            <ShoppingBagIcon className="w-6 h-6 text-white" />
+            <ShoppingBag className="w-6 h-6 text-white" />
           </div>
           <span className="text-xl md:text-2xl font-bold text-gray-800">Wix Exotics</span>
         </Link>
@@ -199,7 +203,7 @@ const Header = () => {
             <div className="p-4 border-b flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="bg-green-600 rounded-full p-2">
-                  <ShoppingBagIcon className="w-5 h-5 text-white" />
+                  <ShoppingBag className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold text-gray-800 uppercase tracking-tight">Wix Exotics</span>
               </Link>
@@ -302,11 +306,5 @@ const Header = () => {
     </header>
   );
 };
-
-const ShoppingBagIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-  </svg>
-);
 
 export default Header;

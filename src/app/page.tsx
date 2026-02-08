@@ -6,23 +6,23 @@ import CategoryList from "@/components/CategoryList";
 import PromoBanner from "@/components/PromoBanner";
 import VideoSection from "@/components/VideoSection";
 import { wixClient } from "@/lib/wixClient";
-import { products } from "@wix/stores";
+import { products, collections } from "@wix/stores";
 import siteConfig from "@/data/siteConfig.json";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default async function Home() {
-  let collections: any[] = [];
-  let categoryProducts: { [key: string]: products.Product[] } = {};
+  let allCollections: collections.Collection[] = [];
+  const categoryProducts: { [key: string]: products.Product[] } = {};
 
   try {
     if (process.env.NEXT_PUBLIC_WIX_CLIENT_ID && process.env.NEXT_PUBLIC_WIX_CLIENT_ID !== "votre_client_id_ici") {
       // Fetch all collections
       const collectionsRes = await wixClient.collections.queryCollections().find();
-      collections = collectionsRes.items;
+      allCollections = collectionsRes.items;
 
       // Fetch 4 products for each collection
-      for (const collection of collections) {
+      for (const collection of allCollections) {
         const productsRes = await wixClient.products
           .queryProducts()
           .eq("collectionIds", collection._id)
@@ -71,7 +71,7 @@ export default async function Home() {
 
           {/* Products by Category */}
           <div className="space-y-16">
-            {collections.map((collection) => (
+            {allCollections.map((collection) => (
               categoryProducts[collection._id!]?.length > 0 && (
                 <div key={collection._id}>
                   <ProductGrid 

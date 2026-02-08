@@ -5,7 +5,7 @@ import { products, collections } from "@wix/stores";
 import ProductGrid from "./ProductGrid";
 import { wixClient } from "@/lib/wixClient";
 import { Loader2, SearchX } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface ShopContentProps {
   initialCollections: collections.Collection[];
@@ -18,11 +18,21 @@ export default function ShopContent({
   initialProducts,
   selectedCategoryId 
 }: ShopContentProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q");
   const [activeTab, setActiveTab] = useState(selectedCategoryId || "all");
   const [productList, setProductList] = useState<products.Product[]>(initialProducts);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Sync activeTab with prop when it changes (e.g. from URL)
+  useEffect(() => {
+    if (selectedCategoryId) {
+      setActiveTab(selectedCategoryId);
+    } else if (!searchQuery) {
+      setActiveTab("all");
+    }
+  }, [selectedCategoryId, searchQuery]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,10 +41,8 @@ export default function ShopContent({
         let query = wixClient.products.queryProducts();
 
         if (searchQuery) {
-          // Si on a une recherche, on cherche par nom ou description
           query = query.startsWith("name", searchQuery);
-          // On peut aussi ajouter d'autres filtres si Wix le permet
-          setActiveTab("search"); // Marquer qu'on est en mode recherche
+          setActiveTab("search");
         } else if (activeTab !== "all") {
           query = query.eq("collectionIds", activeTab);
         }
@@ -49,7 +57,7 @@ export default function ShopContent({
     };
 
     fetchProducts();
-  }, [activeTab, searchQuery, initialProducts]);
+  }, [activeTab, searchQuery]);
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-8">
@@ -61,7 +69,12 @@ export default function ShopContent({
       <div className="flex flex-wrap justify-center gap-4 mb-16">
         {!searchQuery && (
           <button
-            onClick={() => setActiveTab("all")}
+            onClick={() => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.delete("cat");
+              router.push(`/shop?${params.toString()}`);
+              setActiveTab("all");
+            }}
             className={`px-8 py-3 rounded-full font-bold transition-all duration-300 ${
               activeTab === "all"
                 ? "bg-green-600 text-white shadow-lg shadow-green-200 scale-105"
@@ -74,12 +87,12 @@ export default function ShopContent({
         
         {searchQuery && (
           <div className="flex items-center gap-4 px-6 py-3 bg-green-50 text-green-700 rounded-full border border-green-100 font-bold">
-            Résultats pour "{searchQuery}"
+            Résultats pour &quot;{searchQuery}&quot;
             <button 
               onClick={() => {
                 const params = new URLSearchParams(searchParams.toString());
                 params.delete("q");
-                window.history.replaceState(null, "", `?${params.toString()}`);
+                router.push(`/shop?${params.toString()}`);
                 setActiveTab("all");
               }}
               className="hover:text-green-900 ml-2"
@@ -92,7 +105,12 @@ export default function ShopContent({
         {!searchQuery && initialCollections.map((collection) => (
           <button
             key={collection._id}
-            onClick={() => setActiveTab(collection._id!)}
+            onClick={() => {
+              const params = new URLSearchParams(searchParams.toString());
+              params.set("cat", collection._id!);
+              router.push(`/shop?${params.toString()}`);
+              setActiveTab(collection._id!);
+            }}
             className={`px-8 py-3 rounded-full font-bold transition-all duration-300 ${
               activeTab === collection._id
                 ? "bg-green-600 text-white shadow-lg shadow-green-200 scale-105"
@@ -126,21 +144,21 @@ export default function ShopContent({
           <SearchX className="w-12 h-12 text-gray-400" />
           <div>
             <p className="text-gray-500 text-xl font-medium">Aucun produit trouvé.</p>
-            <p className="text-gray-400">Essayez d'autres mots-clés ou changez de catégorie.</p>
+            <p className="text-gray-400">Essayez d&apos;autres mots-clés ou changez de catégorie.</p>
           </div>
           {searchQuery && (
-            <button 
-              onClick={() => {
-                const params = new URLSearchParams(searchParams.toString());
-                params.delete("q");
-                window.history.replaceState(null, "", `?${params.toString()}`);
-                setActiveTab("all");
-              }}
-              className="text-green-600 font-bold hover:underline mt-2"
-            >
-              Voir tous les produits
-            </button>
-          )}
+             <button 
+               onClick={() => {
+                 const params = new URLSearchParams(searchParams.toString());
+                 params.delete("q");
+                 router.push(`/shop?${params.toString()}`);
+                 setActiveTab("all");
+               }}
+               className="text-green-600 font-bold hover:underline mt-2"
+             >
+               Voir tous les produits
+             </button>
+           )}
         </div>
       )}
     </div>
