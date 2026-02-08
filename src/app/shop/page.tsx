@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import ShopContent from "@/components/ShopContent";
 import { wixClient } from "@/lib/wixClient";
 import { products, collections } from "@wix/stores";
+import { Suspense } from "react";
 
 export default async function ShopPage({
   searchParams,
@@ -42,11 +43,13 @@ export default async function ShopPage({
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
       <main className="flex-grow bg-gray-50/50">
-        <ShopContent 
-          initialCollections={allCollections} 
-          initialProducts={initialProducts}
-          selectedCategoryId={selectedCat}
-        />
+        <Suspense fallback={<div className="container mx-auto py-12 px-4 text-center">Chargement de la boutique...</div>}>
+          <ShopContent 
+            initialCollections={allCollections} 
+            initialProducts={initialProducts}
+            selectedCategoryId={selectedCat}
+          />
+        </Suspense>
       </main>
       <Footer />
     </div>

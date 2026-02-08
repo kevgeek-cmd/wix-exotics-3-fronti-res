@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { getWixImageUrl } from "@/lib/wixImage";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { wixClient } from "@/lib/wixClient";
@@ -76,10 +77,10 @@ export default function CategoryList({ limit }: CategoryListProps) {
               >
                 <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-md transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group-hover:ring-4 ring-green-500/20">
                   <Image
-                    src={category.media?.mainMedia?.image?.url || "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop"}
+                    src={getWixImageUrl(category.media?.mainMedia?.image?.url) || "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop"}
                     alt={category.name || "Catégorie"}
                     fill
-                    unoptimized={category.media?.mainMedia?.image?.url?.includes("wixstatic.com")}
+                    unoptimized={true}
                     className="object-cover transition-transform duration-700 group-hover:scale-125"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />

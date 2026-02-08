@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { getWixImageUrl } from "@/lib/wixImage";
 import { useCart } from "@/context/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -78,9 +79,10 @@ export default function CartPage() {
                 <li key={item._id} className="p-6 flex flex-col sm:flex-row gap-6 items-center">
                   <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 relative">
                     <Image 
-                      src={item.image || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200&h=200&fit=crop"} 
+                      src={getWixImageUrl(item.image) || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200&h=200&fit=crop"} 
                       alt={item.productName?.translated || "Produit"} 
                       fill
+                      unoptimized={true}
                       className="object-cover"
                     />
                   </div>

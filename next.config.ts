@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "images.wixstatic.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "*.wixstatic.com",
         pathname: "/**",
       },

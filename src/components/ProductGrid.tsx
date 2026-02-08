@@ -3,6 +3,7 @@ import { ShoppingCart } from 'lucide-react';
 import { products } from '@wix/stores';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getWixImageUrl } from '@/lib/wixImage';
 
 interface ProductGridProps {
   title: string;
@@ -23,10 +24,10 @@ const ProductGrid = ({ title, products = [] }: ProductGridProps) => {
             )}
             <div className="h-48 overflow-hidden relative bg-gray-100">
               <Image 
-                src={product.media?.mainMedia?.image?.url || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop"} 
+                src={getWixImageUrl(product.media?.mainMedia?.image?.url) || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop"} 
                 alt={product.name || "Produit"} 
                 fill
-                unoptimized={product.media?.mainMedia?.image?.url?.includes("wixstatic.com")}
+                unoptimized={true}
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />
             </div>

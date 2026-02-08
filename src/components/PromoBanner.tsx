@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { getWixImageUrl } from "@/lib/wixImage";
 
 interface Promo {
   id: string;
@@ -31,10 +32,10 @@ export default function PromoBanner({ promos }: PromoBannerProps) {
               className="group relative h-40 md:h-48 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
             >
               <Image 
-                src={promo.imageUrl} 
+                src={getWixImageUrl(promo.imageUrl)} 
                 alt={promo.title} 
                 fill 
-                unoptimized={promo.imageUrl?.includes("wixstatic.com")}
+                unoptimized={true}
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent group-hover:from-black/50 transition-colors" />

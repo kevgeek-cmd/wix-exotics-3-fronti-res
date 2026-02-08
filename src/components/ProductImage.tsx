@@ -2,6 +2,7 @@
 
 import { useState, useRef, MouseEvent } from "react";
 import Image from "next/image";
+import { getWixImageUrl } from "@/lib/wixImage";
 
 interface ProductImageProps {
   src: string;
@@ -30,10 +31,10 @@ export default function ProductImage({ src, alt }: ProductImageProps) {
       onMouseMove={handleMouseMove}
     >
       <Image
-        src={src}
+        src={getWixImageUrl(src)}
         alt={alt}
         fill
-        unoptimized={src.includes("wixstatic.com")}
+        unoptimized={true}
         className={`object-contain transition-transform duration-200 ease-out ${
           isHovering ? "scale-150" : "scale-100"
         }`}
