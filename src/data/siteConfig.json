@@ -1,0 +1,11 @@
+{
+  "hero": {
+    "title": "Le meilleur du bio chez vous",
+    "subtitle": "Promo Spéciale",
+    "buttonText": "Acheter Maintenant",
+    "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop"
+  },
+  "categories": {
+    "limit": 6
+  }
+}
