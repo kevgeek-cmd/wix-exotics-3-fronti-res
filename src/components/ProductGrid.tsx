@@ -26,6 +26,7 @@ const ProductGrid = ({ title, products = [] }: ProductGridProps) => {
                 src={product.media?.mainMedia?.image?.url || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop"} 
                 alt={product.name || "Produit"} 
                 fill
+                unoptimized={product.media?.mainMedia?.image?.url?.includes("wixstatic.com")}
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />
             </div>

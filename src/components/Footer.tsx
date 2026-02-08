@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import siteConfig from "@/data/siteConfig.json";
 
 const Footer = () => {
   return (
@@ -13,34 +15,101 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </div>
-              <span className="text-2xl font-bold">EKOMART</span>
+              <span className="text-2xl font-bold uppercase tracking-wider">Wix Exotics</span>
             </div>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-              Nous vous aidons à économiser sur vos courses ! Nous sommes une épicerie en ligne de premier plan.
+              Nous vous aidons à économiser sur vos courses ! Nous sommes une épicerie en ligne de premier plan proposant des produits exotiques et bio de qualité.
             </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-6">Nos Magasins</h3>
+            <h3 className="text-lg font-bold mb-6 relative inline-block">
+              Nos Magasins
+              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-green-600 rounded-full"></span>
+            </h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-green-500">Infos Livraison</a></li>
-              <li><a href="#" className="hover:text-green-500">Politique de Confidentialité</a></li>
-              <li><a href="#" className="hover:text-green-500">Termes & Conditions</a></li>
-              <li>
-                <Link href="/admin" className="text-gray-500 hover:text-green-500 text-xs mt-4 block italic">
-                  Administration du site
-                </Link>
-              </li>
+              <li><Link href="/shop" className="hover:text-green-500 transition-colors">Boutique</Link></li>
+              <li><Link href="/blog" className="hover:text-green-500 transition-colors">Actualités</Link></li>
+              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Infos Livraison</Link></li>
+              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Politique de Confidentialité</Link></li>
+              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Termes & Conditions</Link></li>
             </ul>
+          </div>
+
+          {/* Categories */}
+          <div>
+            <h3 className="text-lg font-bold mb-6 relative inline-block">
+              Catégories
+              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-green-600 rounded-full"></span>
+            </h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Fruits & Légumes</Link></li>
+              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Produits Exotiques</Link></li>
+              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Épicerie Fine</Link></li>
+              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Boissons</Link></li>
+              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Promotions</Link></li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-lg font-bold mb-6 relative inline-block">
+              Contact
+              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-green-600 rounded-full"></span>
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 text-sm text-gray-400 group">
+                <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors">
+                  <Phone className="w-4 h-4 text-white" />
+                </div>
+                <span>{siteConfig.contact.phone}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-gray-400 group">
+                <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors">
+                  <Mail className="w-4 h-4 text-white" />
+                </div>
+                <span>{siteConfig.contact.email}</span>
+              </div>
+              <div className="flex items-start gap-3 text-sm text-gray-400 group">
+                <div className="bg-slate-800 p-2 rounded-lg group-hover:bg-green-600 transition-colors mt-1">
+                  <MapPin className="w-4 h-4 text-white" />
+                </div>
+                <span>{siteConfig.contact.address}</span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
-            Copyright 2024 © Ekomart. Tous droits réservés.
+        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-sm">
+            Copyright 2024 © Wix Exotics. Tous droits réservés.
           </p>
+          <div className="flex items-center gap-6">
+            <Link href="/admin" className="text-gray-600 hover:text-green-500 text-xs transition-colors italic">
+              Administration
+            </Link>
+            <div className="flex gap-2">
+              <div className="w-10 h-6 bg-slate-800 rounded flex items-center justify-center text-[8px] font-bold text-gray-400">VISA</div>
+              <div className="w-10 h-6 bg-slate-800 rounded flex items-center justify-center text-[8px] font-bold text-gray-400">MASTERCARD</div>
+              <div className="w-10 h-6 bg-slate-800 rounded flex items-center justify-center text-[8px] font-bold text-gray-400">PAYPAL</div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

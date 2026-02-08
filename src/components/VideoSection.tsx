@@ -26,17 +26,20 @@ export default function VideoSection({ videos }: VideoSectionProps) {
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-gray-50 rounded-3xl mx-4 md:mx-8 mb-16 border border-gray-100 shadow-inner">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Nos Vidéos</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">Nos Vidéos</h2>
+          <div className="w-24 h-1.5 bg-green-600 mx-auto rounded-full" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {videos.map((video) => {
             const embedUrl = getEmbedUrl(video.youtubeUrl);
             if (!embedUrl) return null;
 
             return (
-              <div key={video.id} className="space-y-4">
-                <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-100">
+              <div key={video.id} className="space-y-6 group">
+                <div className="relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white group-hover:scale-[1.02] transition-transform duration-500 bg-black">
                   <iframe
                     src={embedUrl}
                     title={video.title}
@@ -45,7 +48,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
                     className="absolute inset-0 w-full h-full"
                   ></iframe>
                 </div>
-                <h3 className="text-xl font-semibold text-center text-gray-800">{video.title}</h3>
+                <h3 className="text-xl font-bold text-center text-gray-900 group-hover:text-green-600 transition-colors px-4">{video.title}</h3>
               </div>
             );
           })}

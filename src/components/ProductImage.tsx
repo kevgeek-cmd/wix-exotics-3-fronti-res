@@ -33,6 +33,7 @@ export default function ProductImage({ src, alt }: ProductImageProps) {
         src={src}
         alt={alt}
         fill
+        unoptimized={src.includes("wixstatic.com")}
         className={`object-contain transition-transform duration-200 ease-out ${
           isHovering ? "scale-150" : "scale-100"
         }`}
