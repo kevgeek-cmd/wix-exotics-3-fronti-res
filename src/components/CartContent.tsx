@@ -42,11 +42,6 @@ export default function CartContent({ siteConfig }: CartContentProps) {
       });
       
       if (redirectSession?.fullUrl) {
-        console.log("Redirecting to checkout:", redirectSession.fullUrl);
-        // Show URL for debugging if it contains _api
-        if (redirectSession.fullUrl.includes("_api")) {
-           alert("Debug: URL de redirection suspecte détectée: " + redirectSession.fullUrl);
-        }
         window.location.href = redirectSession.fullUrl;
       } else {
         alert("Erreur: Pas d'URL de redirection reçue de Wix.");
