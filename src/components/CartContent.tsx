@@ -42,6 +42,8 @@ export default function CartContent({ siteConfig }: CartContentProps) {
       });
       
       if (redirectSession?.fullUrl) {
+        // Log URL for debugging (in case of 404 on _api/iam...)
+        console.log("Redirecting to checkout:", redirectSession.fullUrl);
         window.location.href = redirectSession.fullUrl;
       }
     } catch (err) {

@@ -33,6 +33,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    // Load tokens from localStorage if available
+    if (typeof window !== "undefined") {
+      try {
+        const tokens = localStorage.getItem("wix_tickets");
+        if (tokens) {
+          wixClient.auth.setTokens(JSON.parse(tokens));
+        }
+      } catch (e) {
+        console.error("Failed to load tokens", e);
+      }
+    }
+
     const fetchCart = async () => {
       try {
         const cart = await wixClient.currentCart.getCurrentCart();
