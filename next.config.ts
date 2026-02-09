@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     // URL de fallback si la variable d'environnement n'est pas définie
-    const defaultWixUrl = "https://valeriecoulibaly7.wixsite.com/exotic-3-frontieres";
+    const defaultWixUrl = "https://checkout.exotic3frontiere.com";
     const wixBackendUrl = process.env.WIX_BACKEND_URL || defaultWixUrl;
 
     if (!wixBackendUrl) return [];

@@ -42,6 +42,7 @@ export default function CartContent({ siteConfig }: CartContentProps) {
       });
       
       if (redirectSession?.fullUrl) {
+        // Redirection automatique vers le checkout Wix
         window.location.href = redirectSession.fullUrl;
       } else {
         alert("Erreur: Pas d'URL de redirection reçue de Wix.");
