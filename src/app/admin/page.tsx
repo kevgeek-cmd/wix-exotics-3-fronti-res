@@ -18,7 +18,10 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [activeTab, setActiveTab] = useState("general");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [status, setStatus] = useState<{ 
+    vercel: { kv: boolean; blob: boolean; baseUrl: boolean; }; 
+    wix: { clientId: boolean; };
+  } | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const router = useRouter();
 
