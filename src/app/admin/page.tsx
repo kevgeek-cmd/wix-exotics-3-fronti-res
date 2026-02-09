@@ -9,75 +9,7 @@ import {
   Menu as MenuIcon
 } from "lucide-react";
 import Image from "next/image";
-
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  imageUrl: string;
-  date: string;
-  link?: string;
-}
-
-interface SiteConfig {
-  topBanner: {
-    text: string;
-    enabled: boolean;
-    speed: number;
-  };
-  header?: {
-    logoUrl?: string;
-  };
-  hero: {
-    title: string;
-    subtitle: string;
-    buttonText: string;
-    imageUrl: string;
-    link: string;
-    imageFit: string;
-    imagePosition: string;
-    overlayOpacity: number;
-    height: number;
-  };
-  categories: {
-    limit: number;
-  };
-  contact: {
-    email: string;
-    phone: string;
-    address: string;
-    mapUrl: string;
-  };
-  footer: {
-    description: string;
-    socials: {
-      facebook: string;
-      twitter: string;
-      instagram: string;
-      youtube: string;
-    };
-    copyright: string;
-  };
-  promos: {
-    id: string;
-    title: string;
-    imageUrl: string;
-    link: string;
-    active: boolean;
-  }[];
-  videos: {
-    id: string;
-    title: string;
-    youtubeUrl: string;
-  }[];
-  blog: {
-    enabled: boolean;
-    title: string;
-    subtitle: string;
-    articles: Article[];
-  };
-}
+import { SiteConfig } from "@/lib/siteConfig";
 
 export default function AdminDashboard() {
   const [config, setConfig] = useState<SiteConfig | null>(null);

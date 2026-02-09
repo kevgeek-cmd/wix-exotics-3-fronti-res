@@ -1,60 +1,12 @@
+import 'server-only';
 import { createClient } from "@vercel/kv";
 import fs from "fs/promises";
 import path from "path";
+import { SiteConfig } from "./siteConfig";
 
-// Define the configuration interface
-export interface SiteConfig {
-  topBanner: { text: string; enabled: boolean; speed: number };
-  header?: { logoUrl?: string };
-  hero: { 
-    title: string; 
-    subtitle: string; 
-    buttonText: string; 
-    imageUrl: string; 
-    link: string;
-    imageFit?: string;
-    imagePosition?: string;
-    overlayOpacity?: number;
-    height?: number;
-  };
-  categories: { limit: number };
-  contact: { 
-    email: string; 
-    phone: string; 
-    address: string; 
-    mapUrl: string;
-  };
-  footer: { 
-    description: string; 
-    socials: { facebook: string; twitter: string; instagram: string; youtube: string }; 
-    copyright: string;
-  };
-  promos: Array<{
-    id: string;
-    title: string;
-    imageUrl: string;
-    link: string;
-    active: boolean;
-  }>;
-  videos: Array<{
-    id: string;
-    title: string;
-    youtubeUrl: string;
-  }>;
-  blog: {
-    enabled: boolean;
-    title: string;
-    subtitle: string;
-    articles: Array<{
-      id: string;
-      title: string;
-      excerpt: string;
-      content: string;
-      imageUrl: string;
-      date: string;
-    }>;
-  };
-}
+// Re-export type for convenience (only safe if this file is not imported by client components)
+// Better to import type from siteConfig.ts directly in client components.
+export type { SiteConfig };
 
 // Create KV client with support for both standard KV and Upstash Redis env vars
 const kv = createClient({

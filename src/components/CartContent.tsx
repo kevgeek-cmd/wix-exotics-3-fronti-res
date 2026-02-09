@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { wixClient } from "@/lib/wixClient";
 import { useState } from "react";
-import { SiteConfig } from "@/lib/config";
+import { SiteConfig } from "@/lib/siteConfig";
 
 interface CartContentProps {
   siteConfig: SiteConfig;
