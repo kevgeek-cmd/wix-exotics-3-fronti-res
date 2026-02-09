@@ -14,6 +14,7 @@
     "@wix/ecom": "^1.0.1854",
     "@wix/redirects": "^1.0.109",
     "@wix/sdk": "^1.21.2",
+    "@wix/site": "^1.49.0",
     "@wix/stores": "^1.0.684",
     "clsx": "^2.1.1",
     "framer-motion": "^12.33.0",

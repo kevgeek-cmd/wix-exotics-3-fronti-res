@@ -32,6 +32,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    // Default fallback to the provided free Wix URL if env var is missing
+    const wixBackendUrl = process.env.WIX_BACKEND_URL || "https://valeriecoulibaly7.wixsite.com/exotic-3-frontieres";
+    
+    return [
+      {
+        source: '/_api/:path*',
+        destination: `${wixBackendUrl}/_api/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

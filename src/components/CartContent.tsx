@@ -42,12 +42,19 @@ export default function CartContent({ siteConfig }: CartContentProps) {
       });
       
       if (redirectSession?.fullUrl) {
-        // Log URL for debugging (in case of 404 on _api/iam...)
         console.log("Redirecting to checkout:", redirectSession.fullUrl);
+        // Show URL for debugging if it contains _api
+        if (redirectSession.fullUrl.includes("_api")) {
+           alert("Debug: URL de redirection suspecte détectée: " + redirectSession.fullUrl);
+        }
         window.location.href = redirectSession.fullUrl;
+      } else {
+        alert("Erreur: Pas d'URL de redirection reçue de Wix.");
+        setIsRedirecting(false);
       }
     } catch (err) {
       console.error("Checkout error", err);
+      alert("Erreur lors de la redirection vers le paiement. Veuillez réessayer.");
       setIsRedirecting(false);
     }
   };
