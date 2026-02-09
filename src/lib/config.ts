@@ -1,16 +1,11 @@
-export interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  imageUrl: string;
-  date: string;
-  link?: string;
-}
+import { createClient } from "@vercel/kv";
+import fs from "fs/promises";
+import path from "path";
 
+// Define the configuration interface
 export interface SiteConfig {
   topBanner: { text: string; enabled: boolean; speed: number };
-  header: { logoUrl?: string };
+  header?: { logoUrl?: string };
   hero: { 
     title: string; 
     subtitle: string; 
@@ -23,51 +18,81 @@ export interface SiteConfig {
     height?: number;
   };
   categories: { limit: number };
-  contact: { email: string; phone: string; address: string; mapUrl: string };
+  contact: { 
+    email: string; 
+    phone: string; 
+    address: string; 
+    mapUrl: string;
+  };
   footer: { 
     description: string; 
-    socials: { facebook: string; twitter: string; instagram: string; youtube: string };
+    socials: { facebook: string; twitter: string; instagram: string; youtube: string }; 
     copyright: string;
   };
-  promos: { id: string; title: string; imageUrl: string; link: string; active: boolean }[];
-  videos: { id: string; title: string; youtubeUrl: string }[];
-  blog: { 
-    enabled: boolean; 
-    title: string; 
-    subtitle: string; 
-    articles: Article[];
+  promos: Array<{
+    id: string;
+    title: string;
+    imageUrl: string;
+    link: string;
+    active: boolean;
+  }>;
+  videos: Array<{
+    id: string;
+    title: string;
+    youtubeUrl: string;
+  }>;
+  blog: {
+    enabled: boolean;
+    title: string;
+    subtitle: string;
+    articles: Array<{
+      id: string;
+      title: string;
+      excerpt: string;
+      content: string;
+      imageUrl: string;
+      date: string;
+    }>;
   };
 }
 
+// Create KV client with support for both standard KV and Upstash Redis env vars
+const kv = createClient({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "https://fake-url.com", // Prevent crash if missing
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "fake-token",
+});
+
+const CONFIG_KEY = "site_config";
+
+/**
+ * Retrieves the site configuration.
+ * Prioritizes Vercel KV (Redis), falls back to local JSON file.
+ * This function is designed to run on the server (Server Components or API Routes).
+ */
 export async function getConfig(): Promise<SiteConfig> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  
-  // 1. Try to fetch from API (works on both Client and Server)
-  try {
-    const res = await fetch(`${baseUrl}/api/admin/config`, { 
-      cache: 'no-store',
-      next: { revalidate: 0 }
-    });
-    if (res.ok) {
-      return res.json();
-    }
-  } catch (err) {
-    console.warn("API fetch failed, attempting fallback", err);
-  }
-
-  // 2. Fallback to local file (ONLY on Server)
-  if (typeof window === "undefined") {
+  // 1. Try to fetch from KV (if credentials exist)
+  if (
+    (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL) && 
+    (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN)
+  ) {
     try {
-      const fs = await import("fs");
-      const path = await import("path");
-      const configPath = path.join(process.cwd(), "src", "data", "siteConfig.json");
-      const data = await fs.promises.readFile(configPath, "utf-8");
-      return JSON.parse(data);
-    } catch (fileErr) {
-      console.error("Critical error: Could not load config even from file", fileErr);
-      throw fileErr;
+      const config = await kv.get<SiteConfig>(CONFIG_KEY);
+      if (config) {
+        return config;
+      }
+    } catch (error) {
+      console.warn("KV Config Fetch Warning (falling back to local):", error);
     }
   }
 
-  throw new Error("Could not fetch config and local fallback is not available on client");
+  // 2. Fallback to local file (Always works in build/dev)
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "siteConfig.json");
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(fileContent) as SiteConfig;
+  } catch (error) {
+    console.error("CRITICAL: Failed to load local siteConfig.json", error);
+    // Return a safe empty default to prevent build crash
+    return {} as SiteConfig;
+  }
 }
