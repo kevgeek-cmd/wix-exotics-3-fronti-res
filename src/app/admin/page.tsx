@@ -311,7 +311,7 @@ export default function AdminDashboard() {
                             <ImageIcon className="w-12 h-12" />
                           </div>
                         )}
-                        <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: `rgba(0,0,0,${config.hero.overlayOpacity / 100})` }} />
+                        <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: `rgba(0,0,0,${(config.hero.overlayOpacity ?? 40) / 100})` }} />
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
@@ -341,12 +341,12 @@ export default function AdminDashboard() {
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">Opacité Overlay ({config.hero.overlayOpacity}%)</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">Opacité Overlay ({config.hero.overlayOpacity ?? 40}%)</label>
                           <input 
                             type="range"
                             min="0"
                             max="100"
-                            value={config.hero.overlayOpacity}
+                            value={config.hero.overlayOpacity ?? 40}
                             onChange={(e) => setConfig({...config, hero: {...config.hero, overlayOpacity: parseInt(e.target.value)}})}
                             className="w-full accent-green-600"
                           />

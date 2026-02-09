@@ -42,12 +42,14 @@ export interface SiteConfig {
     title: string;
     subtitle: string;
     articles: Array<{
-      id: string;
-      title: string;
-      excerpt: string;
-      content: string;
-      imageUrl: string;
-      date: string;
-    }>;
+    id: string;
+    title: string;
+    excerpt: string;
+    content: string;
+    imageUrl: string;
+    date: string;
+    link?: string;
+  }>;  link?: string;
+  }>;
   };
 }
