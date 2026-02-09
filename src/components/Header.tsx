@@ -33,7 +33,12 @@ const HeaderContent = ({ config }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setSearchQuery(searchParams.get("q") || "");
   }, [searchParams]);
 

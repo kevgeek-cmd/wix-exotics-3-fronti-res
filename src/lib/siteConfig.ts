@@ -49,7 +49,6 @@ export interface SiteConfig {
     imageUrl: string;
     date: string;
     link?: string;
-  }>;  link?: string;
   }>;
   };
 }
