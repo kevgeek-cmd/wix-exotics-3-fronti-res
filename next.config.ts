@@ -33,8 +33,11 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
-    // Default fallback to the provided free Wix URL if env var is missing
-    const wixBackendUrl = process.env.WIX_BACKEND_URL || "https://valeriecoulibaly7.wixsite.com/exotic-3-frontieres";
+    // URL de fallback si la variable d'environnement n'est pas définie
+    const defaultWixUrl = "https://valeriecoulibaly7.wixsite.com/exotic-3-frontieres";
+    const wixBackendUrl = process.env.WIX_BACKEND_URL || defaultWixUrl;
+
+    if (!wixBackendUrl) return [];
     
     return [
       {
