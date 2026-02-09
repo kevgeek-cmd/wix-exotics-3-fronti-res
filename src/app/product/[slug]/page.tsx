@@ -3,12 +3,12 @@ import AddToCart from "@/components/AddToCart";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
-import siteConfig from "@/data/siteConfig.json";
-
+import { getConfig } from "@/lib/config";
 import ProductImage from "@/components/ProductImage";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const siteConfig = await getConfig();
   
   let product;
   try {

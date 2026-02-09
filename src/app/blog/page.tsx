@@ -1,39 +1,12 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import siteConfigData from "@/data/siteConfig.json";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowRight, BookOpen } from "lucide-react";
+import { getConfig } from "@/lib/config";
 
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  imageUrl: string;
-  date: string;
-  link?: string;
-}
-
-interface SiteConfig {
-  topBanner: { text: string; enabled: boolean; speed: number };
-  blog: {
-    enabled: boolean;
-    title: string;
-    subtitle: string;
-    articles: Article[];
-  };
-  contact: { email: string; phone: string; address: string; mapUrl: string };
-  footer: {
-    description: string;
-    socials: { facebook: string; twitter: string; instagram: string; youtube: string };
-    copyright: string;
-  };
-}
-
-const siteConfig = siteConfigData as SiteConfig;
-
-export default function BlogPage() {
+export default async function BlogPage() {
+  const siteConfig = await getConfig();
   const { blog } = siteConfig;
 
   if (!blog.enabled) {

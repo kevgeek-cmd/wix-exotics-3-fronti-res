@@ -4,7 +4,7 @@ import ShopContent from "@/components/ShopContent";
 import { wixClient } from "@/lib/wixClient";
 import { products, collections } from "@wix/stores";
 import { Suspense } from "react";
-import siteConfig from "@/data/siteConfig.json";
+import { getConfig } from "@/lib/config";
 
 export default async function ShopPage({
   searchParams,
@@ -12,6 +12,7 @@ export default async function ShopPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
+  const siteConfig = await getConfig();
   const selectedCat = params.cat as string | undefined;
   const searchQuery = params.q as string | undefined;
 

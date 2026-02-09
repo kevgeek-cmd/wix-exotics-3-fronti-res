@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, User, Heart, ShoppingCart, Menu, ChevronDown, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -14,6 +15,9 @@ interface HeaderProps {
       enabled: boolean;
       text: string;
       speed: number;
+    };
+    header?: {
+      logoUrl?: string;
     };
   };
 }
@@ -93,10 +97,24 @@ const HeaderContent = ({ config }: HeaderProps) => {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="bg-green-600 rounded-full p-2">
-            <ShoppingBag className="w-6 h-6 text-white" />
-          </div>
-          <span className="text-xl md:text-2xl font-bold text-gray-800">Wix Exotics</span>
+          {config.header?.logoUrl ? (
+             <div className="relative h-14 w-48">
+               <Image 
+                 src={config.header.logoUrl} 
+                 alt="Exotics 3 Frontières" 
+                 fill 
+                 className="object-contain object-left"
+                 priority
+               />
+             </div>
+          ) : (
+            <>
+              <div className="bg-green-600 rounded-full p-2">
+                <ShoppingBag className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xl md:text-2xl font-bold text-gray-800">Wix Exotics</span>
+            </>
+          )}
         </Link>
 
         {/* Search (Desktop) */}

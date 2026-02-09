@@ -1,9 +1,10 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategoryList from "@/components/CategoryList";
-import siteConfig from "@/data/siteConfig.json";
+import { getConfig } from "@/lib/config";
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const siteConfig = await getConfig();
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header config={siteConfig} />

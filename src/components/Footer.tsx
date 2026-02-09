@@ -1,8 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 interface FooterProps {
   config: {
+    header?: {
+      logoUrl?: string;
+    };
     footer: {
       description: string;
       socials: {
@@ -29,12 +33,25 @@ const Footer = ({ config }: FooterProps) => {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <div className="bg-green-600 rounded-full p-2">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-              </div>
-              <span className="text-2xl font-bold uppercase tracking-wider">Wix Exotics</span>
+              {config.header?.logoUrl ? (
+                <div className="relative h-14 w-48">
+                  <Image 
+                    src={config.header.logoUrl} 
+                    alt="Exotics 3 Frontières" 
+                    fill 
+                    className="object-contain object-left"
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="bg-green-600 rounded-full p-2">
+                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                  </div>
+                  <span className="text-2xl font-bold uppercase tracking-wider">Wix Exotics</span>
+                </>
+              )}
             </div>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
               {config.footer.description}

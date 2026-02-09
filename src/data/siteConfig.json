@@ -4,6 +4,9 @@
     "enabled": true,
     "speed": 20
   },
+  "header": {
+    "logoUrl": ""
+  },
   "hero": {
     "title": "Le meilleur du bio chez vous",
     "subtitle": "Promo Spéciale",

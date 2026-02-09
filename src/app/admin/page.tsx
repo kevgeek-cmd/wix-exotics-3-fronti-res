@@ -26,6 +26,9 @@ interface SiteConfig {
     enabled: boolean;
     speed: number;
   };
+  header?: {
+    logoUrl?: string;
+  };
   hero: {
     title: string;
     subtitle: string;
@@ -83,6 +86,7 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [activeTab, setActiveTab] = useState("general");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [status, setStatus] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -98,11 +102,22 @@ export default function AdminDashboard() {
       }
     };
 
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch("/api/admin/status");
+        const data = await res.json();
+        setStatus(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     const auth = localStorage.getItem("admin_auth");
     if (!auth) {
       router.push("/admin/login");
     } else {
       fetchConfig();
+      fetchStatus();
     }
   }, [router]);
 
@@ -215,6 +230,22 @@ export default function AdminDashboard() {
           </nav>
 
           <div className="pt-6 border-t border-slate-800">
+            {status && (
+              <div className="px-4 mb-4 space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span>Stockage Cloud</span>
+                  <div className={`w-2 h-2 rounded-full ${status.vercel.kv ? 'bg-green-500' : 'bg-orange-500'}`} />
+                </div>
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span>Upload Images</span>
+                  <div className={`w-2 h-2 rounded-full ${status.vercel.blob ? 'bg-green-500' : 'bg-orange-500'}`} />
+                </div>
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span>Base URL</span>
+                  <div className={`w-2 h-2 rounded-full ${status.vercel.baseUrl ? 'bg-green-500' : 'bg-orange-500'}`} />
+                </div>
+              </div>
+            )}
             <button 
               onClick={handleLogout}
               className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all"
@@ -424,6 +455,57 @@ export default function AdminDashboard() {
           {/* Header Section */}
           {activeTab === "header" && (
             <div className="space-y-8">
+              <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 className="text-lg font-black mb-6 flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5 text-green-600" />
+                  Logo du Site
+                </h3>
+                <div className="flex gap-4 items-start">
+                  <div className="relative w-40 h-20 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 flex items-center justify-center">
+                    {config.header?.logoUrl ? (
+                      <Image 
+                        src={config.header.logoUrl} 
+                        alt="Logo" 
+                        fill 
+                        className="object-contain p-2"
+                      />
+                    ) : (
+                      <span className="text-slate-400 text-xs font-bold">Aucun logo</span>
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-4">
+                    <div className="flex gap-2">
+                       <input 
+                         type="text"
+                         value={config.header?.logoUrl || ""}
+                         placeholder="URL du logo"
+                         onChange={(e) => setConfig({
+                           ...config, 
+                           header: { ...(config.header || {}), logoUrl: e.target.value }
+                         })}
+                         className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-sm"
+                       />
+                       <label className="cursor-pointer bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl flex items-center gap-2 transition-colors">
+                          <ImageIcon className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm font-bold text-slate-600">Upload</span>
+                          <input 
+                            type="file" 
+                            className="hidden" 
+                            accept="image/*"
+                            onChange={(e) => handleImageUpload(e, (url) => setConfig({
+                              ...config, 
+                              header: { ...(config.header || {}), logoUrl: url }
+                            }))}
+                          />
+                        </label>
+                    </div>
+                    <p className="text-xs text-slate-400">
+                      Recommandé : Image PNG transparente, hauteur 50px environ.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
               <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-lg font-black flex items-center gap-2">

@@ -7,72 +7,38 @@ import PromoBanner from "@/components/PromoBanner";
 import VideoSection from "@/components/VideoSection";
 import { wixClient } from "@/lib/wixClient";
 import { products, collections } from "@wix/stores";
-import siteConfigData from "@/data/siteConfig.json";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-
-interface SiteConfig {
-  topBanner: { text: string; enabled: boolean; speed: number };
-  hero: { 
-    title: string; 
-    subtitle: string; 
-    buttonText: string; 
-    imageUrl: string; 
-    link: string;
-    imageFit?: string;
-    imagePosition?: string;
-    overlayOpacity?: number;
-    height?: number;
-  };
-  categories: { limit: number };
-  contact: { email: string; phone: string; address: string; mapUrl: string };
-  footer: { 
-    description: string; 
-    socials: { facebook: string; twitter: string; instagram: string; youtube: string };
-    copyright: string;
-  };
-  promos: { id: string; title: string; imageUrl: string; link: string; active: boolean }[];
-  videos: { id: string; title: string; youtubeUrl: string }[];
-  blog: { 
-    enabled: boolean; 
-    title: string; 
-    subtitle: string; 
-    articles: {
-      id: string;
-      title: string;
-      excerpt: string;
-      content: string;
-      imageUrl: string;
-      date: string;
-      link?: string;
-    }[];
-  };
-}
-
-const siteConfig = siteConfigData as SiteConfig;
+import { getConfig } from "@/lib/config";
 
 export default async function Home() {
+  const siteConfig = await getConfig();
   let allCollections: collections.Collection[] = [];
   const categoryProducts: { [key: string]: products.Product[] } = {};
 
   try {
     if (process.env.NEXT_PUBLIC_WIX_CLIENT_ID) {
-      // Fetch all collections
       const collectionsRes = await wixClient.collections.queryCollections().find();
       allCollections = collectionsRes.items;
 
       // Fetch 4 products for each collection
-      for (const collection of allCollections) {
-        const productsRes = await wixClient.products
-          .queryProducts()
-          .eq("collectionIds", collection._id)
-          .limit(4)
-          .find();
-        categoryProducts[collection._id!] = productsRes.items;
-      }
+      const productPromises = allCollections.map(async (collection) => {
+        try {
+          const productsRes = await wixClient.products
+            .queryProducts()
+            .eq("collectionIds", collection._id)
+            .limit(4)
+            .find();
+          categoryProducts[collection._id!] = productsRes.items;
+        } catch (err) {
+          categoryProducts[collection._id!] = [];
+        }
+      });
+
+      await Promise.all(productPromises);
     }
   } catch (err) {
-    console.error("Erreur lors de la récupération des données Wix", err);
+    console.error("Wix fetch error:", err);
   }
 
   return (
@@ -121,7 +87,7 @@ export default async function Home() {
 
           {/* Products by Category */}
           <div className="space-y-16">
-            {allCollections.map((collection) => (
+            {allCollections.slice(0, siteConfig.categories.limit || 6).map((collection) => (
               categoryProducts[collection._id!]?.length > 0 && (
                 <div key={collection._id}>
                   <ProductGrid 

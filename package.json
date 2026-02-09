@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/blob": "^2.2.0",
+    "@vercel/kv": "^3.0.0",
     "@wix/ecom": "^1.0.1854",
     "@wix/redirects": "^1.0.109",
     "@wix/sdk": "^1.21.2",
