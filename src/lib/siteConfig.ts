@@ -1,5 +1,9 @@
 // Define the configuration interface
 export interface SiteConfig {
+  general?: {
+    siteName?: string;
+    faviconUrl?: string;
+  };
   topBanner: { text: string; enabled: boolean; speed: number };
   header?: { logoUrl?: string };
   hero: { 
