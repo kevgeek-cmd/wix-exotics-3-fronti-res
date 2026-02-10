@@ -14,13 +14,21 @@ export default function VideoSection({ videos }: VideoSectionProps) {
   if (videos.length === 0) return null;
 
   const getEmbedUrl = (url: string) => {
+    if (!url) return null;
     let videoId = "";
-    if (url.includes("v=")) {
-      videoId = url.split("v=")[1].split("&")[0];
-    } else if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("embed/")) {
-      videoId = url.split("embed/")[1].split("?")[0];
+    try {
+      if (url.includes("v=")) {
+        videoId = url.split("v=")[1].split("&")[0];
+      } else if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1].split("?")[0];
+      } else if (url.includes("embed/")) {
+        videoId = url.split("embed/")[1].split("?")[0];
+      } else if (url.includes("shorts/")) {
+        videoId = url.split("shorts/")[1].split("?")[0];
+      }
+    } catch (e) {
+      console.error("Error parsing YouTube URL:", url, e);
+      return null;
     }
     return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
   };

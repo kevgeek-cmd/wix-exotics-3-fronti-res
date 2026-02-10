@@ -11,6 +11,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getConfig } from "@/lib/config";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const siteConfig = await getConfig();
   let allCollections: collections.Collection[] = [];
