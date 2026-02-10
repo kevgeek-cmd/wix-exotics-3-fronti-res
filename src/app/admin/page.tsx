@@ -538,123 +538,7 @@ export default function AdminDashboard() {
                 </div>
               </section>
 
-              {/* Footer Links Management - Shop */}
-              <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-black">Liens "Nos Magasins"</h3>
-                  <button 
-                    onClick={() => {
-                      const newLinks = { ...(config.footer.links || { shop: [], categories: [] }) };
-                      if (!newLinks.shop) newLinks.shop = [];
-                      newLinks.shop.push({ label: "Nouveau lien", url: "/shop" });
-                      setConfig({...config, footer: {...config.footer, links: newLinks}});
-                    }}
-                    className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition-all"
-                  >
-                    <Plus className="w-4 h-4" /> Ajouter
-                  </button>
-                </div>
-                <div className="space-y-3">
-                  {config.footer.links?.shop?.map((link, idx) => (
-                    <div key={idx} className="flex gap-4 items-center">
-                      <input 
-                        type="text" 
-                        value={link.label}
-                        onChange={(e) => {
-                           const newLinks = { ...config.footer.links! };
-                           newLinks.shop[idx].label = e.target.value;
-                           setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-                        placeholder="Nom du lien"
-                      />
-                      <input 
-                        type="text" 
-                        value={link.url}
-                        onChange={(e) => {
-                           const newLinks = { ...config.footer.links! };
-                           newLinks.shop[idx].url = e.target.value;
-                           setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-                        placeholder="URL"
-                      />
-                      <button 
-                        onClick={() => {
-                          const newLinks = { ...config.footer.links! };
-                          newLinks.shop = newLinks.shop.filter((_, i) => i !== idx);
-                          setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                  {(!config.footer.links?.shop || config.footer.links.shop.length === 0) && (
-                    <p className="text-slate-400 text-sm italic">Aucun lien personnalisé. Les liens par défaut s'afficheront.</p>
-                  )}
-                </div>
-              </section>
 
-              {/* Footer Links Management - Categories */}
-              <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-black">Liens "Catégories"</h3>
-                  <button 
-                    onClick={() => {
-                      const newLinks = { ...(config.footer.links || { shop: [], categories: [] }) };
-                      if (!newLinks.categories) newLinks.categories = [];
-                      newLinks.categories.push({ label: "Nouvelle catégorie", url: "/category" });
-                      setConfig({...config, footer: {...config.footer, links: newLinks}});
-                    }}
-                    className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition-all"
-                  >
-                    <Plus className="w-4 h-4" /> Ajouter
-                  </button>
-                </div>
-                <div className="space-y-3">
-                  {config.footer.links?.categories?.map((link, idx) => (
-                    <div key={idx} className="flex gap-4 items-center">
-                      <input 
-                        type="text" 
-                        value={link.label}
-                        onChange={(e) => {
-                           const newLinks = { ...config.footer.links! };
-                           newLinks.categories[idx].label = e.target.value;
-                           setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-                        placeholder="Nom de la catégorie"
-                      />
-                      <input 
-                        type="text" 
-                        value={link.url}
-                        onChange={(e) => {
-                           const newLinks = { ...config.footer.links! };
-                           newLinks.categories[idx].url = e.target.value;
-                           setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-                        placeholder="URL"
-                      />
-                      <button 
-                        onClick={() => {
-                          const newLinks = { ...config.footer.links! };
-                          newLinks.categories = newLinks.categories.filter((_, i) => i !== idx);
-                          setConfig({...config, footer: {...config.footer, links: newLinks}});
-                        }}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                  {(!config.footer.links?.categories || config.footer.links.categories.length === 0) && (
-                    <p className="text-slate-400 text-sm italic">Aucun lien personnalisé. Les liens par défaut s'afficheront.</p>
-                  )}
-                </div>
-              </section>
             </div>
           )}
 
@@ -932,6 +816,124 @@ export default function AdminDashboard() {
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
+                </div>
+              </section>
+
+              {/* Footer Links Management - Shop */}
+              <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-black">Liens "Nos Magasins"</h3>
+                  <button 
+                    onClick={() => {
+                      const newLinks = { ...(config.footer.links || { shop: [], categories: [] }) };
+                      if (!newLinks.shop) newLinks.shop = [];
+                      newLinks.shop.push({ label: "Nouveau lien", url: "/shop" });
+                      setConfig({...config, footer: {...config.footer, links: newLinks}});
+                    }}
+                    className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition-all"
+                  >
+                    <Plus className="w-4 h-4" /> Ajouter
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {config.footer.links?.shop?.map((link, idx) => (
+                    <div key={idx} className="flex gap-4 items-center">
+                      <input 
+                        type="text" 
+                        value={link.label}
+                        onChange={(e) => {
+                           const newLinks = { ...config.footer.links! };
+                           newLinks.shop[idx].label = e.target.value;
+                           setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
+                        placeholder="Nom du lien"
+                      />
+                      <input 
+                        type="text" 
+                        value={link.url}
+                        onChange={(e) => {
+                           const newLinks = { ...config.footer.links! };
+                           newLinks.shop[idx].url = e.target.value;
+                           setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
+                        placeholder="URL"
+                      />
+                      <button 
+                        onClick={() => {
+                          const newLinks = { ...config.footer.links! };
+                          newLinks.shop = newLinks.shop.filter((_, i) => i !== idx);
+                          setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  {(!config.footer.links?.shop || config.footer.links.shop.length === 0) && (
+                    <p className="text-slate-400 text-sm italic">Aucun lien personnalisé. Les liens par défaut s'afficheront.</p>
+                  )}
+                </div>
+              </section>
+
+              {/* Footer Links Management - Categories */}
+              <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-black">Liens "Catégories"</h3>
+                  <button 
+                    onClick={() => {
+                      const newLinks = { ...(config.footer.links || { shop: [], categories: [] }) };
+                      if (!newLinks.categories) newLinks.categories = [];
+                      newLinks.categories.push({ label: "Nouvelle catégorie", url: "/category" });
+                      setConfig({...config, footer: {...config.footer, links: newLinks}});
+                    }}
+                    className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition-all"
+                  >
+                    <Plus className="w-4 h-4" /> Ajouter
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {config.footer.links?.categories?.map((link, idx) => (
+                    <div key={idx} className="flex gap-4 items-center">
+                      <input 
+                        type="text" 
+                        value={link.label}
+                        onChange={(e) => {
+                           const newLinks = { ...config.footer.links! };
+                           newLinks.categories[idx].label = e.target.value;
+                           setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
+                        placeholder="Nom de la catégorie"
+                      />
+                      <input 
+                        type="text" 
+                        value={link.url}
+                        onChange={(e) => {
+                           const newLinks = { ...config.footer.links! };
+                           newLinks.categories[idx].url = e.target.value;
+                           setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
+                        placeholder="URL"
+                      />
+                      <button 
+                        onClick={() => {
+                          const newLinks = { ...config.footer.links! };
+                          newLinks.categories = newLinks.categories.filter((_, i) => i !== idx);
+                          setConfig({...config, footer: {...config.footer, links: newLinks}});
+                        }}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  {(!config.footer.links?.categories || config.footer.links.categories.length === 0) && (
+                    <p className="text-slate-400 text-sm italic">Aucun lien personnalisé. Les liens par défaut s'afficheront.</p>
+                  )}
                 </div>
               </section>
             </div>
