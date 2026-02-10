@@ -16,6 +16,10 @@ interface FooterProps {
         youtube: string;
       };
       copyright: string;
+      links?: {
+        shop: Array<{ label: string; url: string }>;
+        categories: Array<{ label: string; url: string }>;
+      };
     };
     contact: {
       phone: string;
@@ -87,11 +91,19 @@ const Footer = ({ config }: FooterProps) => {
               <span className="absolute -bottom-2 left-0 w-12 h-1 bg-green-600 rounded-full"></span>
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href="/shop" className="hover:text-green-500 transition-colors">Boutique</Link></li>
-              <li><Link href="/blog" className="hover:text-green-500 transition-colors">Actualités</Link></li>
-              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Infos Livraison</Link></li>
-              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Politique de Confidentialité</Link></li>
-              <li><Link href="/contact" className="hover:text-green-500 transition-colors">Termes & Conditions</Link></li>
+              {config.footer.links?.shop ? (
+                config.footer.links.shop.map((link, idx) => (
+                  <li key={idx}><Link href={link.url} className="hover:text-green-500 transition-colors">{link.label}</Link></li>
+                ))
+              ) : (
+                <>
+                  <li><Link href="/shop" className="hover:text-green-500 transition-colors">Boutique</Link></li>
+                  <li><Link href="/blog" className="hover:text-green-500 transition-colors">Actualités</Link></li>
+                  <li><Link href="/contact" className="hover:text-green-500 transition-colors">Infos Livraison</Link></li>
+                  <li><Link href="/contact" className="hover:text-green-500 transition-colors">Politique de Confidentialité</Link></li>
+                  <li><Link href="/contact" className="hover:text-green-500 transition-colors">Termes & Conditions</Link></li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -102,11 +114,19 @@ const Footer = ({ config }: FooterProps) => {
               <span className="absolute -bottom-2 left-0 w-12 h-1 bg-green-600 rounded-full"></span>
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Fruits & Légumes</Link></li>
-              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Produits Exotiques</Link></li>
-              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Épicerie Fine</Link></li>
-              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Boissons</Link></li>
-              <li><Link href="/categories" className="hover:text-green-500 transition-colors">Promotions</Link></li>
+              {config.footer.links?.categories ? (
+                config.footer.links.categories.map((link, idx) => (
+                  <li key={idx}><Link href={link.url} className="hover:text-green-500 transition-colors">{link.label}</Link></li>
+                ))
+              ) : (
+                <>
+                  <li><Link href="/categories" className="hover:text-green-500 transition-colors">Fruits & Légumes</Link></li>
+                  <li><Link href="/categories" className="hover:text-green-500 transition-colors">Produits Exotiques</Link></li>
+                  <li><Link href="/categories" className="hover:text-green-500 transition-colors">Épicerie Fine</Link></li>
+                  <li><Link href="/categories" className="hover:text-green-500 transition-colors">Boissons</Link></li>
+                  <li><Link href="/categories" className="hover:text-green-500 transition-colors">Promotions</Link></li>
+                </>
+              )}
             </ul>
           </div>
 

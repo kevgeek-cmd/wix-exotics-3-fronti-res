@@ -24,6 +24,10 @@ export interface SiteConfig {
     description: string; 
     socials: { facebook: string; twitter: string; instagram: string; youtube: string }; 
     copyright: string;
+    links: {
+      shop: Array<{ label: string; url: string }>;
+      categories: Array<{ label: string; url: string }>;
+    };
   };
   promos: Array<{
     id: string;
